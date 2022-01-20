@@ -13,12 +13,10 @@ class Rectangle extends Shape {
     y = width;
   }
 
-  Rectangle.fromSource(Shape source) {
-    // clone logic.
-    x = source.x;
-    y = source.y;
-    _hashCode = source.hashCode;
-    isClone = true;
+  Rectangle copyWith(Shape source) {
+    return Rectangle(height: source.x, width: source.y)
+      .._hashCode = source.hashCode
+      ..isClone = true;
   }
 
   late int height;
@@ -30,7 +28,7 @@ class Rectangle extends Shape {
   String get cloneStatus => isClone ? "is a clone" : "is an original gangster";
 
   @override
-  Rectangle clone() => Rectangle.fromSource(this);
+  Rectangle clone() => copyWith(this);
 
   @override
   int get hashCode {
@@ -56,12 +54,10 @@ class Circle extends Shape {
     y = radius;
   }
 
-  Circle.fromSource(Shape source) {
-    // clone logic.
-    x = source.x;
-    y = source.y;
-    _hashCode = source.hashCode;
-    isClone = true;
+  Circle copyWith(Shape source) {
+    return Circle(radius: source.x)
+      .._hashCode = source.hashCode
+      ..isClone = true;
   }
 
   late int radius;
@@ -72,7 +68,7 @@ class Circle extends Shape {
   String get cloneStatus => isClone ? "is a clone" : "is an original gangster";
 
   @override
-  Circle clone() => Circle.fromSource(this);
+  Circle clone() => copyWith(this);
 
   @override
   int get hashCode {
