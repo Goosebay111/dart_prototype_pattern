@@ -3,7 +3,7 @@ import 'dart:math';
 abstract class Shape {
   late int x;
   late int y;
-  Shape clone(); //prototype functionality.
+  Shape copyWith(); //prototype functionality.
   double area();
 }
 
@@ -13,9 +13,10 @@ class Rectangle extends Shape {
     y = width;
   }
 
-  Rectangle copyWith(Shape source) {
-    return Rectangle(height: source.x, width: source.y)
-      .._hashCode = source.hashCode
+  @override
+  Rectangle copyWith() {
+    return Rectangle(height: x, width: y)
+      .._hashCode = hashCode
       ..isClone = true;
   }
 
@@ -26,9 +27,6 @@ class Rectangle extends Shape {
 
   bool isClone = false;
   String get cloneStatus => isClone ? "is a clone" : "is an original gangster";
-
-  @override
-  Rectangle clone() => copyWith(this);
 
   @override
   int get hashCode {
@@ -54,9 +52,10 @@ class Circle extends Shape {
     y = radius;
   }
 
-  Circle copyWith(Shape source) {
-    return Circle(radius: source.x)
-      .._hashCode = source.hashCode
+  @override
+  Circle copyWith() {
+    return Circle(radius: x)
+      .._hashCode = hashCode
       ..isClone = true;
   }
 
@@ -66,9 +65,6 @@ class Circle extends Shape {
 
   bool isClone = false;
   String get cloneStatus => isClone ? "is a clone" : "is an original gangster";
-
-  @override
-  Circle clone() => copyWith(this);
 
   @override
   int get hashCode {
@@ -90,7 +86,7 @@ class Circle extends Shape {
 
 void main() {
   var ogRect = Rectangle(width: 100, height: 100);
-  var cloneRect = ogRect.clone();
+  var cloneRect = ogRect.copyWith();
   var someOtherRect = Rectangle(width: 100, height: 200);
 
   print("ogRect ${ogRect.cloneStatus}.");
@@ -109,17 +105,18 @@ void main() {
   print(ogCircle.area());
   print('ogCircle ${ogCircle.cloneStatus}.');
 
-  var cloneCircle = ogCircle.clone();
+  var cloneCircle = ogCircle.copyWith();
   cloneCircle.radius = 20;
   print(cloneCircle.area());
   print('cloneCircle ${cloneCircle.cloneStatus}.');
-
-  /*
-    ogRect is an original gangster.
-    cloneRect is a clone.
-    someOtherRect is an original gangster.
-
-    cloneRect is a clone of ogRect.
-    someOtherRect is not a clone of ogRect.
-  */
 }
+
+/*
+    flutter: ogRect is an original gangster.
+    flutter: cloneRect is a clone.
+    flutter: someOtherRect is an original gangster.
+    flutter: cloneRect is a clone of ogRect.
+    flutter: someOtherRect is not a clone of ogRect.
+    flutter: 314.1592653589793
+    flutter: ogCircle is an original gangster.
+*/
